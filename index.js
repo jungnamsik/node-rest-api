@@ -28,9 +28,16 @@ app.get('/users', (req,res) => {
 })
 
 app.get('/users/:id', (req,res) => {
-    let id = req.params.id
-    // let user = users.filter(user = ())
-    res.json(users)
+    let id = parseInt(req.params.id, 10)
+
+    if(Number.isNaN(id))
+        return res.status(400).end()
+
+    const user = users.filter(user => user.id === id)[0]
+    if (!user) {
+        return res.status(404).end()
+    }
+    res.json(user)
 })
 
 

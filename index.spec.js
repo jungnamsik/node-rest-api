@@ -37,7 +37,48 @@ describe('GET /users', () => {
         })
         // it()
     })
-    
 }) 
 
 
+describe('GET /users/:id', () => {
+    describe('Success', () => {
+        it('user obj return', done => {
+            request(app)
+                .get('/users/1')
+                .end((err, res) => {
+                    res.body.should.have.property('id', 1)
+                    done()
+                })
+        })
+    } )
+    describe('Failure', () => {
+        it('id Not numer. res code 400', (done) => {
+            request(app)
+                .get('/users/one')
+                .expect(400)
+                .end(done)
+        })
+        it('id Not numer. res code 404', (done) => {
+            request(app)
+                .get('/users/0')
+                .expect(404)
+                .end(done)
+        })
+
+    })
+})
+
+
+describe('DELETE /users/:id', ()=> {
+    describe('Success', () => {
+        it('Success', done =>{
+            request(app)
+                .delete('/users/1')
+                .expect(201)
+                .end(done)
+        })
+
+    })
+    describe('Failure', () => {
+    })
+})
