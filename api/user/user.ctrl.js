@@ -1,4 +1,4 @@
-const users = [
+let users = [
     {id:1, name:"jns1"}
     ,{id:2, name:"jns2"}
     ,{id:3, name:"jns3"}
@@ -34,12 +34,12 @@ const destroy = (req,res) => {
     if(Number.isNaN(id))
         return res.status(400).end()
 
-    const user = users.filter(user => user.id !== id)
-    if (!user) {
+    users = users.filter(user => user.id !== id)
+    if (!users) {
         return res.status(404).end()
     }
 
-    res.status(204).json(user)
+    res.status(204).json(users)
 }
 const create = (req,res) => {
     let name = req.body.name
