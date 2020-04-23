@@ -74,11 +74,53 @@ describe('DELETE /users/:id', ()=> {
         it('Success', done =>{
             request(app)
                 .delete('/users/1')
-                .expect(201)
-                .end(done)
+                .expect(204)
+                .end((err, res) => {
+                    // console.log("err>>", err);
+                    // console.log("user>>", res.body);
+                    done()
+                })
         })
 
     })
     describe('Failure', () => {
+        it('ID is not number', done => {
+            request(app)
+                .delete('/users/one')
+                .expect(400)
+                .end(done)
+        })
+    })
+})
+
+
+describe('POST /users', () => {
+    describe('Success', () => {
+        it('Code 201 : Ok!!', done => {
+            request(app)
+                .post('/users')
+                .send({name:"jns9"})
+                .expect(201)
+                .end((err, res) => {
+                    res.body.should.have.property('name', 'jns9')
+                    done()
+                })
+        })
+    })
+    describe('Failure', () => {
+        it('Not Name : Code 400', done => {
+            request(app)
+                .post('/users')
+                .send({xname:"jnsX"})
+                .expect(400)
+                .end(done)
+        })
+        it('Name duplication : Code 409', done => {
+            request(app)
+                .post('/users')
+                .send({name:"jns1"})
+                .expect(409)
+                .end(done)
+        })
     })
 })
